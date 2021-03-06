@@ -1,4 +1,4 @@
-# Welcome to Serverless!
+# Welcome to Serverless
 #
 # This file is the main config file for your service.
 # It's very minimal at this point and uses default values.
@@ -18,7 +18,7 @@ service: backend
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
-frameworkVersion: '2'
+frameworkVersion: "2"
 
 provider:
   name: aws
