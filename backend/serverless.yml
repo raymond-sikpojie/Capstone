@@ -24,8 +24,28 @@ provider:
     # AUTH_0_SECRET: "RKRnXFALiQas3WN1Mt8lZsBZZrhijNTdgT0tMJ1SclULwR3X8FC2oOrLCIXzGsqM"
 
 functions:
-  hello:
-    handler: handler.hello
+  CreateRequest:
+    handler: src/lambda/http/createLoan.createLoanRequest
+    events:
+      - http:
+          method: post
+          path: request
+          cors: true
+          # authorizer: RS256Auth
+          # reqValidatorName: RequestBodyValidator
+          # documentation:
+          #   summary: Create Todo
+          #   description: Create Todo
+          #   requestModels:
+          #     "application/json": CreateTodoRequest
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+          - dynamodb:GetItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.LOAN_TABLE}
+  # hello:
+  #   handler: handler.hello
 
 resources:
   Resources:
