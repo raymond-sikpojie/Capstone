@@ -80,7 +80,7 @@ resources:
           - AttributeName: loanId
             AttributeType: S
           - AttributeName: userId
-            AttributeType: S
+            AttributeType: N
         KeySchema:
           - AttributeName: loanId
             KeyType: HASH
