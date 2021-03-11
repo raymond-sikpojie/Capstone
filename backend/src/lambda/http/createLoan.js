@@ -8,7 +8,9 @@ const loanTable = process.env.LOAN_TABLE
 module.exports.createLoanRequest = async (event) => {
     const {name, amount} = JSON.parse(event.body)
     const loanId = uuid.v4()
-    const userId = Math.random() + 1
+    // const userId = event.headers.Authorization
+    const userId = "auth0|60489a3c5797dc00688a8550"
+
 
     const item = {
         userId,
