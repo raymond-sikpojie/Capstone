@@ -1,30 +1,16 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useAuth0} from "@auth0/auth0-react"
 
 
 
 export default function Profile() {
     const {user, isAuthenticated} = useAuth0()
-
+    const [userDetail, setUserDetail] = useState(undefined)
+    const [fetchedData, setFectchedData] = useState(false)
     useEffect(() => {
 
         if (isAuthenticated) {
          console.log("component did mount")
-        
-        //  const request = await fetch("https://5y0jnmttzk.execute-api.us-east-1.amazonaws.com/dev/loan", {
-        //     method: "POST",
-        //     credentials: "same-origin",
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify(user),
-        //   });
-        
-        //   const responseData = await request.json();
-        
-        //   if (request.status === 200) {
-        //       console.log(responseData)
-        //   }
 
         const getLoans = async () => {
             const request = await fetch("https://bztmjaum2a.execute-api.us-east-1.amazonaws.com/dev/loan", {
@@ -37,26 +23,50 @@ export default function Profile() {
             
             })
             const responseData = await request.json()
-            console.log(responseData);
+            setUserDetail(responseData)
+            setFectchedData(!false)
+            if(userDetail !== undefined) {
+
+                console.log(userDetail.items);
+            }   
+
         }
 
         getLoans()
 
         }
+
+    }, [fetchedData])
+
+    const RenderUser = () => {
         
+        if(userDetail !== undefined) {
+            <p>this is a drill</p>
+            // <p>{userDetail.items[0].name}</p>
+        // let showUser = userDetail.items
+        // {showUser.map((item) => {
+        //     return (
+        //         <div>
+        //         <p>{item.name}</p>
+        //         <p>{item.amount}</p>
+        //         </div>
+        //     )
+        // })}
+        }
 
-
-    })
-
+    }
     
 
     return (
-        isAuthenticated ? 
+        isAuthenticated && userDetail !== undefined? 
         <div>
-            <h3>{user.name}</h3>
+            <p>Successful test</p>
+        {/* <RenderUser /> */}
+
+            {/* <h3>{user.name}</h3>
             <p>{user.email}</p>
             <p>{user.sub}</p>
-            {JSON.stringify(user)}
+            {JSON.stringify(user)} */}
         </div>: null
     )
 }
