@@ -71,6 +71,20 @@ functions:
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.LOAN_TABLE}/index/${self:provider.environment.USERID_INDEX}
 
+  DeleteLoans:
+    handler: src/lambda/http/deleteLoan.deleteLoan
+    events:
+      - http:
+          method: delete
+          path: loan/{loanId}
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:DeleteItem
+          - dynamodb:GetItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.LOAN_TABLE}
+
 resources:
   Resources:
     # TODO: Add any necessary AWS resources
