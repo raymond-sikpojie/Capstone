@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import ImageUploadButton from "../components/ImageUploadButton";
 
 export default function Profile() {
   const { user, isAuthenticated } = useAuth0();
   const [userDetail, setUserDetail] = useState(undefined);
-  const [fetchedData, setFectchedData] = useState(false);
+  const [fetchedData, setFetchedData] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -25,7 +26,7 @@ export default function Profile() {
         );
         const responseData = await request.json();
         setUserDetail(responseData);
-        setFectchedData(!false);
+        setFetchedData(!false);
         if (userDetail !== undefined) {
           console.log(userDetail.items);
         }
@@ -51,9 +52,10 @@ export default function Profile() {
     }
   };
 
-  return isAuthenticated && userDetail !== undefined ? (
+  return isAuthenticated ? (
     <div>
       <p>Successful test</p>
+      <ImageUploadButton />
       {/* <RenderUser /> */}
 
       {/* <h3>{user.name}</h3>
