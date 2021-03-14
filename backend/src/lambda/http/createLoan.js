@@ -5,10 +5,15 @@ const uuid = require("uuid");
 const docClient = new AWS.DynamoDB.DocumentClient();
 const loanTable = process.env.LOAN_TABLE;
 
+// const createLoan = require("../../businessLogic/loan");
+// import createLoan from "../../businessLogic/loan";
+
 module.exports.createLoanRequest = async (event) => {
   const { name, amount } = JSON.parse(event.body);
+  // const itemObj = { name, amount };
+
   const loanId = uuid.v4();
-  // const userId = event.headers.Authorization
+  // const userId = event.headers.Authorization;
   const userId = "auth0|60489a3c5797dc00688a8550";
 
   const item = {
@@ -17,6 +22,7 @@ module.exports.createLoanRequest = async (event) => {
     name,
     amount,
     approved: false,
+    imageUrl: "",
     // createdAt: new Date().toISOString(),
   };
 
@@ -26,6 +32,8 @@ module.exports.createLoanRequest = async (event) => {
   };
 
   await docClient.put(params).promise();
+
+  // createLoan(userId, itemObj);
 
   return {
     statusCode: 200,

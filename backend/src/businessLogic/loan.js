@@ -1,16 +1,25 @@
-export default async function createNewRequest(userId, itemObject) {
+const AWS = require("aws-sdk");
+const { DocumentClient } = require("aws-sdk/clients/dynamodb");
+const docClient = new AWS.DynamoDB.DocumentClient();
+const loanTable = process.env.LOAN_TABLE;
+const uuid = require("uuid");
+
+export async function createLoan(userId, loanItem) {
+  const loanId = uuid.v4();
+
   const item = {
     userId,
-    loanId: Math.random() + 1,
-    ...itemObject,
+    loanId,
+    name: loanItem.name,
+    amount: loanItem.amount,
+    approved: false,
     // createdAt: new Date().toISOString(),
-    // approved: false,
   };
 
-  //     await docClient.put({
-  //         TableName: loanTable,
-  //         Item: item
-  //     }).promise()
+  const params = {
+    TableName: loanTable,
+    Item: item,
+  };
 
-  return item;
+  await docClient.put(params).promise();
 }

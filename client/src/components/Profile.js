@@ -55,7 +55,7 @@ export default function Profile() {
   return isAuthenticated ? (
     <div>
       <p>Successful test</p>
-      <ImageUploadButton />
+      <ImageUploadButton user={userDetail} />
       {/* <RenderUser /> */}
 
       {/* <h3>{user.name}</h3>

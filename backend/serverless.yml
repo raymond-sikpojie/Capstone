@@ -20,7 +20,7 @@ provider:
     LOAN_TABLE: Loan-${self:provider.stage}
     USERID_INDEX: UserIdIndex
     IMAGE_S3_BUCKET: capstone-app-${self:provider.stage}
-    # SIGNED_URL_EXPIRATION: 300
+    SIGNED_URL_EXPIRATION: 300
     # AUTH_0_SECRET: "RKRnXFALiQas3WN1Mt8lZsBZZrhijNTdgT0tMJ1SclULwR3X8FC2oOrLCIXzGsqM"
 
 functions:
@@ -71,6 +71,19 @@ functions:
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.LOAN_TABLE}/index/${self:provider.environment.USERID_INDEX}
 
+  UpdateLoan:
+    handler: src/lambda/http/updateLoan.updateLoan
+    events:
+      - http:
+          method: patch
+          path: loan/{loanId}
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.LOAN_TABLE}
+
   DeleteLoans:
     handler: src/lambda/http/deleteLoan.deleteLoan
     events:
@@ -82,6 +95,25 @@ functions:
       - Effect: Allow
         Action:
           - dynamodb:DeleteItem
+          - dynamodb:GetItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.LOAN_TABLE}
+
+  ImageUpload:
+    handler: src/lambda/http/imageUpload.imageUpload
+    events:
+      - http:
+          method: post
+          path: loan/{loanId}/image
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - s3:PutObject
+          - s3:GetObject
+        Resource: arn:aws:s3:::${self:provider.environment.IMAGE_S3_BUCKET}/*
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
           - dynamodb:GetItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.LOAN_TABLE}
 
