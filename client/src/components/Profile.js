@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import ImageUploadButton from "../components/ImageUploadButton";
+import CreateItemForm from "../components/CreateItemForm";
 
 export default function Profile() {
   const { user, isAuthenticated } = useAuth0();
@@ -55,6 +56,7 @@ export default function Profile() {
   return isAuthenticated ? (
     <div>
       <p>Successful test</p>
+      <CreateItemForm user={userDetail} />
       <ImageUploadButton user={userDetail} />
       {/* <RenderUser /> */}
 
