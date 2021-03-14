@@ -8,9 +8,6 @@ const uuid = require("uuid");
 
 module.exports.imageUpload = async (event) => {
   const loanId = event.pathParameters.loanId;
-  // const data = JSON.parse(event.body);
-
-  // const loanTable = process.env.LOAN_TABLE;
 
   const imageId = uuid.v4();
 
@@ -19,10 +16,9 @@ module.exports.imageUpload = async (event) => {
   });
 
   // Return a signed URL to upload a file to the S3 bucket
-
   const url = s3.getSignedUrl("putObject", {
     Bucket: bucket,
-    Key: loanId,
+    Key: imageId,
     // Expires: url_expiration,
     Expires: 300,
   });
@@ -30,17 +26,16 @@ module.exports.imageUpload = async (event) => {
   const imageUrl = `https://${bucket}.s3.amazonaws.com/${imageId}`;
 
   // Update the loan item in DynamoDB to include the image URL
+  const updateUrlOnLoanItem = {
+    TableName: loanTable,
+    Key: { loanId },
+    UpdateExpression: "set imageUrl = :url",
+    ExpressionAttributeValues: {
+      ":url": imageUrl,
+    },
+  };
 
-  // const updateUrlOnLoanItem = {
-  //   TableName: loanTable,
-  //   Key: {loanId},
-  //   UpdateExpression: "set attachmentUrl = :imageUrl",
-  //   ExpressAttributeValues: {
-  //     ":imageUrl": imageUrl
-  //   }
-  // }
-
-  // await docClient.update(updateUrlOnLoanItem).promise()
+  await docClient.update(updateUrlOnLoanItem).promise();
 
   return {
     statusCode: 201,

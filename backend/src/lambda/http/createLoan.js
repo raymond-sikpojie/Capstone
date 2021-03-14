@@ -22,7 +22,7 @@ module.exports.createLoanRequest = async (event) => {
     name,
     amount,
     approved: false,
-    imageUrl: "",
+    imageUrl: null,
     // createdAt: new Date().toISOString(),
   };
 

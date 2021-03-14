@@ -22,7 +22,6 @@ export default function ImageUploadButton(props) {
     console.log(responseData);
 
     // Upload file to S3 using the newly generated signed Url
-
     const upload = await fetch(responseData.signedUrl, {
       method: "PUT",
       mode: "cors",
