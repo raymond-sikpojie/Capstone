@@ -1,12 +1,10 @@
 import React from "react";
 
-export default function ImageUploadButton(props) {
+export default function ImageUploadButton({ id }) {
   const uploadImage = async (e) => {
-    console.log(e.target.files);
     const file = e.target.files[0];
 
-    console.log(props.user.items[0].loanId);
-    const loanId = props.user.items[0].loanId;
+    const loanId = id;
 
     // Get signed Url
     const url = `https://bztmjaum2a.execute-api.us-east-1.amazonaws.com/dev/loan/${loanId}/image`;

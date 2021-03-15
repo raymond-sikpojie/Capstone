@@ -38,7 +38,7 @@ export default function CreateItemForm(props) {
     <div>
       <form onSubmit={handleSubmit}>
         <label>
-          Name
+          Expense
           <input
             type="text"
             name="expense"
@@ -50,7 +50,7 @@ export default function CreateItemForm(props) {
         <label>
           Amount
           <input
-            type="text"
+            type="number"
             name="amount"
             placeholder="Amount"
             onChange={(e) => setAmount(e.target.value)}

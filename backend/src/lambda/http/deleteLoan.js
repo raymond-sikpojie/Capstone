@@ -6,6 +6,7 @@ const loanTable = process.env.LOAN_TABLE;
 module.exports.deleteLoan = async (event) => {
   const loanId = event.pathParameters.loanId;
 
+  // Delete item from DyanmoDB table
   await docClient
     .delete({
       TableName: loanTable,
@@ -14,6 +15,8 @@ module.exports.deleteLoan = async (event) => {
       },
     })
     .promise();
+
+  // TODO: Delete item photo from S3 bucket
 
   return {
     statusCode: 201,

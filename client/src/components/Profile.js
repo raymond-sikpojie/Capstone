@@ -37,28 +37,39 @@ export default function Profile() {
     }
   }, [fetchedData]);
 
-  const RenderUser = () => {
-    if (userDetail !== undefined) {
-      <p>this is a drill</p>;
-      // <p>{userDetail.items[0].name}</p>
-      // let showUser = userDetail.items
-      // {showUser.map((item) => {
-      //     return (
-      //         <div>
-      //         <p>{item.name}</p>
-      //         <p>{item.amount}</p>
-      //         </div>
-      //     )
-      // })}
-    }
+  const handleDelete = async (loanId) => {
+    const url = `https://bztmjaum2a.execute-api.us-east-1.amazonaws.com/dev/loan/${loanId}`;
+    const response = await fetch(url, {
+      method: "DELETE",
+    });
+    const responseData = await response.json();
+    console.log(responseData);
   };
 
-  return isAuthenticated ? (
+  const ShowUser = () => {
+    const userData = userDetail.items;
+    const userInfo = userData.map((user) => {
+      return (
+        <div key={user.loanId}>
+          <p>{user.name}</p>
+          <p>{user.amount}</p>
+          {user.approved ? <p>Approved</p> : <p>Unapproved</p>}
+          {user.imageUrl ? <img src={user.imageUrl} alt="invoice" /> : null}
+          <ImageUploadButton id={user.loanId} />
+          <button onClick={() => handleDelete(user.loanId)}>Delete</button>
+        </div>
+      );
+    });
+
+    return <div>{userInfo}</div>;
+  };
+
+  return isAuthenticated && userDetail ? (
     <div>
-      <p>Successful test</p>
       <CreateItemForm user={userDetail} />
-      <ImageUploadButton user={userDetail} />
-      {/* <RenderUser /> */}
+      {/* <ImageUploadButton user={userDetail} /> */}
+      <ShowUser />
+      {/* <ShowUser /> */}
 
       {/* <h3>{user.name}</h3>
             <p>{user.email}</p>
