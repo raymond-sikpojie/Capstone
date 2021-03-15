@@ -36,18 +36,27 @@ export default function CreateItemForm(props) {
 
   return (
     <div>
-      <form>
-        <input
-          type="text"
-          placeholder="Expense"
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Amount"
-          onChange={(e) => setAmount(e.target.value)}
-        />
-        <button onClick={handleSubmit}>Submit</button>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Name
+          <input
+            type="text"
+            name="expense"
+            placeholder="Expense"
+            onChange={(e) => setName(e.target.value)}
+          />
+        </label>
+
+        <label>
+          Amount
+          <input
+            type="text"
+            name="amount"
+            placeholder="Amount"
+            onChange={(e) => setAmount(e.target.value)}
+          />
+        </label>
+        <input type="submit" value="Submit" />
       </form>
     </div>
   );
