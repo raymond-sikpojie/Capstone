@@ -1,0 +1,20 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "update-loan",
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "amount": {
+        "type": "string"
+      }
+
+    },
+    "required": [
+      "name",
+      "amount"
+    ],
+    "additionalProperties": false
+  }
