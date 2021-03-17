@@ -1,38 +1,36 @@
 import React, { useEffect, useState } from "react";
+// import { useHistory } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import ImageUploadButton from "../components/ImageUploadButton";
 import CreateItemForm from "../components/CreateItemForm";
+// import EditItem from "../components/EditItem";
 
 export default function Profile() {
   const { user, isAuthenticated } = useAuth0();
   const [userDetail, setUserDetail] = useState(undefined);
   const [fetchedData, setFetchedData] = useState(false);
 
+  // Function to Get all loans by a user from DynamoDB
+  const getLoans = async () => {
+    const request = await fetch(
+      "https://bztmjaum2a.execute-api.us-east-1.amazonaws.com/dev/loan",
+      {
+        method: "GET",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: user.sub,
+        },
+      }
+    );
+    const responseData = await request.json();
+
+    setUserDetail(responseData);
+    setFetchedData(!false);
+  };
+
   useEffect(() => {
     if (isAuthenticated) {
-      console.log("component did mount");
-
-      //  Get all loans by a user from DynamoDB
-      const getLoans = async () => {
-        const request = await fetch(
-          "https://bztmjaum2a.execute-api.us-east-1.amazonaws.com/dev/loan",
-          {
-            method: "GET",
-            credentials: "same-origin",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: user.sub,
-            },
-          }
-        );
-        const responseData = await request.json();
-        setUserDetail(responseData);
-        setFetchedData(!false);
-        if (userDetail !== undefined) {
-          console.log(userDetail.items);
-        }
-      };
-
       getLoans();
     }
   }, [fetchedData]);
@@ -42,8 +40,9 @@ export default function Profile() {
     const response = await fetch(url, {
       method: "DELETE",
     });
-    const responseData = await response.json();
-    console.log(responseData);
+
+    // this function updates states and re-renders the UI
+    getLoans();
   };
 
   const ShowUser = () => {
@@ -55,8 +54,15 @@ export default function Profile() {
           <p>{user.amount}</p>
           {user.approved ? <p>Approved</p> : <p>Unapproved</p>}
           {user.imageUrl ? <img src={user.imageUrl} alt="invoice" /> : null}
-          <ImageUploadButton id={user.loanId} />
+
+          <ImageUploadButton
+            id={user.loanId}
+            user={userDetail}
+            setUser={setUserDetail}
+          />
+
           <button onClick={() => handleDelete(user.loanId)}>Delete</button>
+          {/* <button onClick={handleEdit}>Edit</button> */}
         </div>
       );
     });
@@ -64,17 +70,15 @@ export default function Profile() {
     return <div>{userInfo}</div>;
   };
 
+  // const handleEdit = () => {
+  //   history.push({ EditItem });
+  // };
+
   return isAuthenticated && userDetail ? (
     <div>
-      <CreateItemForm user={userDetail} />
-      {/* <ImageUploadButton user={userDetail} /> */}
-      <ShowUser />
-      {/* <ShowUser /> */}
+      <CreateItemForm user={userDetail} setUser={setUserDetail} />
 
-      {/* <h3>{user.name}</h3>
-            <p>{user.email}</p>
-            <p>{user.sub}</p>
-            {JSON.stringify(user)} */}
+      <ShowUser />
     </div>
   ) : null;
 }

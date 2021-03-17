@@ -5,6 +5,7 @@ const userIndex = process.env.USERID_INDEX;
 
 module.exports.getAllLoans = async (event) => {
   const userId = event.headers.Authorization;
+  // const userId = event.pathParameters.userId;
 
   const result = await docClient
     .query({

@@ -1,6 +1,30 @@
 import React from "react";
 
-export default function ImageUploadButton({ id }) {
+export default function ImageUploadButton({ id, user, setUser }) {
+  const userDetail = user;
+  const setUserDetail = setUser;
+
+  //  Get all loans by a user from DynamoDB. This will update state and re-render UI
+  const getLoans = async () => {
+    const request = await fetch(
+      "https://bztmjaum2a.execute-api.us-east-1.amazonaws.com/dev/loan",
+      {
+        method: "GET",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: user.sub,
+        },
+      }
+    );
+    const responseData = await request.json();
+    setUserDetail(responseData);
+    // setFetchedData(!false);
+    if (userDetail !== undefined) {
+      console.log(userDetail.items);
+    }
+  };
+
   const uploadImage = async (e) => {
     const file = e.target.files[0];
 
@@ -27,7 +51,12 @@ export default function ImageUploadButton({ id }) {
     });
 
     const uploadData = await upload;
-    console.log(uploadData);
+
+    if (uploadData.status === 200) {
+      getLoans();
+    }
+
+    // getLoans();
   };
   return (
     <div>
