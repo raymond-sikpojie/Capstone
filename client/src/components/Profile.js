@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import ImageUploadButton from "../components/ImageUploadButton";
 import CreateItemForm from "../components/CreateItemForm";
+const apiId = process.env.REACT_APP_API_ID;
 // import EditItem from "../components/EditItem";
 
 export default function Profile() {
@@ -13,7 +14,7 @@ export default function Profile() {
   // Function to Get all loans by a user from DynamoDB
   const getLoans = async () => {
     const request = await fetch(
-      "https://bztmjaum2a.execute-api.us-east-1.amazonaws.com/dev/loan",
+      `https://${apiId}.execute-api.us-east-1.amazonaws.com/dev/loan`,
       {
         method: "GET",
         credentials: "same-origin",
@@ -36,7 +37,7 @@ export default function Profile() {
   }, [fetchedData]);
 
   const handleDelete = async (loanId) => {
-    const url = `https://bztmjaum2a.execute-api.us-east-1.amazonaws.com/dev/loan/${loanId}`;
+    const url = `https://${apiId}.execute-api.us-east-1.amazonaws.com/dev/loan/${loanId}`;
     const response = await fetch(url, {
       method: "DELETE",
     });

@@ -1,5 +1,6 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+const apiId = process.env.REACT_APP_API_ID;
 
 export default function ImageUploadButton({ id, userDetail, setUserDetail }) {
   const { user } = useAuth0();
@@ -7,7 +8,7 @@ export default function ImageUploadButton({ id, userDetail, setUserDetail }) {
   //  Get all loans by a user from DynamoDB. This will update state and re-render UI
   const getLoans = async () => {
     const request = await fetch(
-      "https://bztmjaum2a.execute-api.us-east-1.amazonaws.com/dev/loan",
+      `https://${apiId}.execute-api.us-east-1.amazonaws.com/dev/loan`,
       {
         method: "GET",
         credentials: "same-origin",
@@ -31,7 +32,7 @@ export default function ImageUploadButton({ id, userDetail, setUserDetail }) {
     const loanId = id;
 
     // Get signed Url
-    const url = `https://bztmjaum2a.execute-api.us-east-1.amazonaws.com/dev/loan/${loanId}/image`;
+    const url = `https://${apiId}.execute-api.us-east-1.amazonaws.com/dev/loan/${loanId}/image`;
     const response = await fetch(url, {
       method: "POST",
       mode: "cors",

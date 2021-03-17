@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+const apiId = process.env.REACT_APP_API_ID;
 
 export default function CreateItemForm(props) {
   const [name, setName] = useState(undefined);
@@ -12,8 +13,7 @@ export default function CreateItemForm(props) {
 
   // Get request to create a new loan request
   const createLoanRequest = async (data) => {
-    const url =
-      "https://bztmjaum2a.execute-api.us-east-1.amazonaws.com/dev/loan";
+    const url = `https://${apiId}.execute-api.us-east-1.amazonaws.com/dev/loan`;
     const response = await fetch(url, {
       method: "POST",
       mode: "cors",
@@ -26,7 +26,7 @@ export default function CreateItemForm(props) {
   //  Get all loans by a user from DynamoDB
   const getLoans = async () => {
     const request = await fetch(
-      "https://bztmjaum2a.execute-api.us-east-1.amazonaws.com/dev/loan",
+      `https://${apiId}.execute-api.us-east-1.amazonaws.com/dev/loan`,
       {
         method: "GET",
         credentials: "same-origin",
