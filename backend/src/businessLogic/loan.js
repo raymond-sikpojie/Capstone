@@ -4,7 +4,7 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 const loanTable = process.env.LOAN_TABLE;
 const uuid = require("uuid");
 
-export async function createLoan(userId, loanItem) {
+export default async function createLoan(userId, loanItem) {
   const loanId = uuid.v4();
 
   const item = {

@@ -16,12 +16,31 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
 
+  # tracing:
+  #   lambda: true
+  #   apiGateway: true
+
   environment:
     LOAN_TABLE: Loan-${self:provider.stage}
     USERID_INDEX: UserIdIndex
     IMAGE_S3_BUCKET: capstone-app-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
     # AUTH_0_SECRET: "RKRnXFALiQas3WN1Mt8lZsBZZrhijNTdgT0tMJ1SclULwR3X8FC2oOrLCIXzGsqM"
+
+# custom:
+#   documentation:
+#     api:
+#       info:
+#         version: v1.0.0
+#         title: Todo API
+#         description: serverless app
+#     models:
+#       - name: CreateLoanRequest
+#         contentType: application/json
+#         schema: ${file(src/models/create-loan.json)}
+#       - name: UpdateLoanRequest
+#         contentType: application/json
+#         schema: ${file(src/models/update-loan.json)}
 
 functions:
   CreateRequest:
@@ -35,10 +54,10 @@ functions:
           # authorizer: RS256Auth
           # reqValidatorName: RequestBodyValidator
           # documentation:
-          #   summary: Create Todo
-          #   description: Create Todo
+          #   summary: Create Loan
+          #   description: Create Loan
           #   requestModels:
-          #     "application/json": CreateTodoRequest
+          #     "application/json": CreateLoanRequest
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -55,12 +74,6 @@ functions:
           cors: true
           # auth: none
           # authorizer: RS256Auth
-          # reqValidatorName: RequestBodyValidator
-          # documentation:
-          #   summary: Create Todo
-          #   description: Create Todo
-          #   requestModels:
-          #     "application/json": CreateTodoRequest
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -78,6 +91,12 @@ functions:
           method: patch
           path: loan/{loanId}
           cors: true
+          # reqValidatorName: RequestBodyValidator
+          # documentation:
+          # summary: Create Loan
+          # description: Create Loan
+          # requestModels:
+          #   "application/json": UpdateLoanRequest
     iamRoleStatements:
       - Effect: Allow
         Action:
