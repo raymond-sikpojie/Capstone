@@ -57,8 +57,8 @@ export default function Profile() {
 
           <ImageUploadButton
             id={user.loanId}
-            user={userDetail}
-            setUser={setUserDetail}
+            userDetail={userDetail}
+            setUserDetail={setUserDetail}
           />
 
           <button onClick={() => handleDelete(user.loanId)}>Delete</button>

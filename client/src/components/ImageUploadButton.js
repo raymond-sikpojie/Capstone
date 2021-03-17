@@ -1,8 +1,8 @@
 import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
-export default function ImageUploadButton({ id, user, setUser }) {
-  const userDetail = user;
-  const setUserDetail = setUser;
+export default function ImageUploadButton({ id, userDetail, setUserDetail }) {
+  const { user } = useAuth0();
 
   //  Get all loans by a user from DynamoDB. This will update state and re-render UI
   const getLoans = async () => {
@@ -52,15 +52,11 @@ export default function ImageUploadButton({ id, user, setUser }) {
 
     const uploadData = await upload;
 
-    if (uploadData.status === 200) {
-      getLoans();
-    }
-
-    // getLoans();
+    getLoans();
   };
   return (
     <div>
-      <input type="file" onChange={(e) => uploadImage(e)} />
+      <input type="file" placeholder="" onChange={(e) => uploadImage(e)} />
     </div>
   );
 }

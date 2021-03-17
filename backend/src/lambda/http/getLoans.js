@@ -16,7 +16,7 @@ module.exports.getAllLoans = async (event) => {
         ":userId": userId,
       },
 
-      ScanIndexForward: false,
+      ScanIndexForward: true,
     })
     .promise();
 
