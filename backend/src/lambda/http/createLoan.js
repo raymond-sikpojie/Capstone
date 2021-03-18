@@ -1,5 +1,3 @@
-const AWS = require("aws-sdk");
-const { DocumentClient } = require("aws-sdk/clients/dynamodb");
 const { createLoan } = require("../../businessLogic/loan");
 
 module.exports.createLoanRequest = async (event) => {

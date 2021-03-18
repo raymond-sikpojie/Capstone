@@ -1,24 +1,9 @@
-const AWS = require("aws-sdk");
-const docClient = new AWS.DynamoDB.DocumentClient();
-const loanTable = process.env.LOAN_TABLE;
-const userIndex = process.env.USERID_INDEX;
+const { getLoans } = require("../../businessLogic/loan");
 
 module.exports.getAllLoans = async (event) => {
   const userId = event.headers.Authorization;
-  // const userId = event.pathParameters.userId;
 
-  const result = await docClient
-    .query({
-      TableName: loanTable,
-      IndexName: userIndex,
-      KeyConditionExpression: "userId = :userId",
-      ExpressionAttributeValues: {
-        ":userId": userId,
-      },
-
-      ScanIndexForward: true,
-    })
-    .promise();
+  const result = await getLoans(userId);
 
   const items = result.Items;
 
@@ -30,8 +15,5 @@ module.exports.getAllLoans = async (event) => {
     body: JSON.stringify({
       items,
     }),
-    // body: JSON.stringify({
-    //     "item": userId
-    // })
   };
 };
