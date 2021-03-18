@@ -1,6 +1,8 @@
 const AWS = require("aws-sdk");
+const AWSXRay = require("aws-xray-sdk");
+const XAWS = AWSXRay.captureAWS(AWS);
 const { DocumentClient } = require("aws-sdk/clients/dynamodb");
-const docClient = new AWS.DynamoDB.DocumentClient();
+const docClient = new XAWS.DynamoDB.DocumentClient();
 const loanTable = process.env.LOAN_TABLE;
 const userIndex = process.env.USERID_INDEX;
 const uuid = require("uuid");

@@ -16,6 +16,7 @@
     "serverless-reqvalidator-plugin": "^1.0.4"
   },
   "dependencies": {
+    "aws-xray-sdk": "^3.2.0",
     "uuid": "^8.3.2"
   }
 }

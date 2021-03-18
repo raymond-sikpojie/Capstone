@@ -75,11 +75,13 @@ export default function Profile() {
   //   history.push({ EditItem });
   // };
 
-  return isAuthenticated && userDetail ? (
+  return (
     <div>
-      <CreateItemForm user={userDetail} setUser={setUserDetail} />
+      {isAuthenticated ? (
+        <CreateItemForm user={userDetail} setUser={setUserDetail} />
+      ) : null}
 
-      <ShowUser />
+      {isAuthenticated && userDetail ? <ShowUser /> : null}
     </div>
-  ) : null;
+  );
 }

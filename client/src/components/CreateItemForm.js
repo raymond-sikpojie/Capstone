@@ -46,6 +46,9 @@ export default function CreateItemForm(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (name === "" || amount === "") {
+      return;
+    }
 
     const requestBody = {
       name,

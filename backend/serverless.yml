@@ -1,47 +1,44 @@
-service: capstone-projecct
+service: capstone-project
 
 frameworkVersion: "2"
 
 plugins:
-  # - serverless-webpack
   - serverless-iam-roles-per-function
-  # - serverless-reqvalidator-plugin
-  # - serverless-aws-documentation
+  - serverless-reqvalidator-plugin
+  - serverless-aws-documentation
 
 provider:
   name: aws
-  # runtime: nodejs12.x
   runtime: nodejs14.x
   lambdaHashingVersion: 20201221
 
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
 
-  # tracing:
-  #   lambda: true
-  #   apiGateway: true
+  tracing:
+    lambda: true
+    apiGateway: true
 
   environment:
     LOAN_TABLE: Loan-${self:provider.stage}
     USERID_INDEX: UserIdIndex
     IMAGE_S3_BUCKET: capstone-app-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
-    # AUTH_0_SECRET: "RKRnXFALiQas3WN1Mt8lZsBZZrhijNTdgT0tMJ1SclULwR3X8FC2oOrLCIXzGsqM"
 
-# custom:
-#   documentation:
-#     api:
-#       info:
-#         version: v1.0.0
-#         title: Todo API
-#         description: serverless app
-#     models:
-#       - name: CreateLoanRequest
-#         contentType: application/json
-#         schema: ${file(src/models/create-loan.json)}
-#       - name: UpdateLoanRequest
-#         contentType: application/json
-#         schema: ${file(src/models/update-loan.json)}
+custom:
+  documentation:
+    api:
+      info:
+        version: v1.0.0
+        title: Todo API
+        description: serverless app
+    models:
+      - name: CreateLoanRequest
+        contentType: application/json
+        schema: ${file(src/models/create-loan.json)}
+      - name: UpdateLoanRequest
+        contentType: application/json
+        schema: ${file(src/models/update-loan.json)}
 
 functions:
   CreateRequest:
@@ -51,14 +48,12 @@ functions:
           method: post
           path: loan
           cors: true
-          # auth: none
-          # authorizer: RS256Auth
-          # reqValidatorName: RequestBodyValidator
-          # documentation:
-          #   summary: Create Loan
-          #   description: Create Loan
-          #   requestModels:
-          #     "application/json": CreateLoanRequest
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: Create Loan
+            description: Create Loan
+            requestModels:
+              "application/json": CreateLoanRequest
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -73,8 +68,6 @@ functions:
           method: get
           path: loan
           cors: true
-          # auth: none
-          # authorizer: RS256Auth
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -92,12 +85,12 @@ functions:
           method: patch
           path: loan/{loanId}
           cors: true
-          # reqValidatorName: RequestBodyValidator
-          # documentation:
-          # summary: Create Loan
-          # description: Create Loan
-          # requestModels:
-          #   "application/json": UpdateLoanRequest
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: Create Loan
+            description: Create Loan
+            requestModels:
+              "application/json": UpdateLoanRequest
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -142,25 +135,25 @@ resources:
     # TODO: Add any necessary AWS resources
     # Set correct CORS headers incase auth fails
 
-    # RequestBodyValidator:
-    #   Type: AWS::ApiGateway::RequestValidator
-    #   Properties:
-    #     Name: "request-body-validator"
-    #     RestApiId:
-    #       Ref: ApiGatewayRestApi
-    #     ValidateRequestBody: true
-    #     ValidateRequestParameters: false
+    RequestBodyValidator:
+      Type: AWS::ApiGateway::RequestValidator
+      Properties:
+        Name: "request-body-validator"
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        ValidateRequestBody: true
+        ValidateRequestParameters: false
 
-    # GatewayResponseDefault4XX:
-    #   Type: AWS::ApiGateway::GatewayResponse
-    #   Properties:
-    #     ResponseParameters:
-    #       gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
-    #       gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-    #       gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
-    #     ResponseType: DEFAULT_4XX
-    #     RestApiId:
-    #       Ref: ApiGatewayRestApi
+    GatewayResponseDefault4XX:
+      Type: AWS::ApiGateway::GatewayResponse
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+          gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: ApiGatewayRestApi
 
     LoanTable:
       Type: AWS::DynamoDB::Table
