@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import ImageUploadButton from "../components/ImageUploadButton";
 import CreateItemForm from "../components/CreateItemForm";
+import Header from "../components/Header";
 const apiId = process.env.REACT_APP_API_ID;
 // import EditItem from "../components/EditItem";
 
@@ -50,10 +51,10 @@ export default function Profile() {
     const userData = userDetail.items;
     const userInfo = userData.map((user) => {
       return (
-        <div key={user.loanId}>
-          <p>{user.name}</p>
-          <p>{user.amount}</p>
-          {user.approved ? <p>Approved</p> : <p>Unapproved</p>}
+        <div className="loan-item" key={user.loanId}>
+          <p>Loan purpose: {user.name}</p>
+          <p>Cost: ${user.amount}</p>
+          {user.approved ? <p>Status: Approved</p> : <p>Status: Unapproved</p>}
           {user.imageUrl ? <img src={user.imageUrl} alt="invoice" /> : null}
 
           <ImageUploadButton
@@ -62,7 +63,12 @@ export default function Profile() {
             setUserDetail={setUserDetail}
           />
 
-          <button onClick={() => handleDelete(user.loanId)}>Delete</button>
+          <button
+            className="delete-btn"
+            onClick={() => handleDelete(user.loanId)}
+          >
+            Delete
+          </button>
           {/* <button onClick={handleEdit}>Edit</button> */}
         </div>
       );
@@ -77,6 +83,7 @@ export default function Profile() {
 
   return (
     <div>
+      <Header />
       {isAuthenticated ? (
         <CreateItemForm user={userDetail} setUser={setUserDetail} />
       ) : null}

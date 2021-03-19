@@ -65,8 +65,8 @@ export default function CreateItemForm(props) {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="form-container">
+      <form className="form" onSubmit={handleSubmit}>
         <label>
           Expense
           <input
@@ -86,7 +86,7 @@ export default function CreateItemForm(props) {
             onChange={(e) => setAmount(e.target.value)}
           />
         </label>
-        <input type="submit" value="Submit" />
+        <input className="submit-btn" type="submit" value="Submit" />
       </form>
     </div>
   );

@@ -57,7 +57,11 @@ export default function ImageUploadButton({ id, userDetail, setUserDetail }) {
   };
   return (
     <div>
-      <input type="file" placeholder="" onChange={(e) => uploadImage(e)} />
+      <input
+        className="file-upload"
+        type="file"
+        onChange={(e) => uploadImage(e)}
+      />
     </div>
   );
 }
