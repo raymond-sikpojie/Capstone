@@ -1,7 +1,7 @@
 const { getLoans } = require("../../businessLogic/loan");
 
 module.exports.getAllLoans = async (event) => {
-  const userId = event.headers.Authorization;
+  const userId = event.pathParameters.userId;
 
   const result = await getLoans(userId);
 

@@ -2,13 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { Auth0Provider } from "@auth0/auth0-react";
+import { config } from "../../client/src/config";
 
-const { REACT_APP_AUTH0_DOMAIN, REACT_APP_AUTH0_CLIENT_ID } = process.env;
+const { auth0_domain, clientId } = config;
 
 ReactDOM.render(
   <Auth0Provider
-    domain={REACT_APP_AUTH0_DOMAIN}
-    clientId={REACT_APP_AUTH0_CLIENT_ID}
+    domain={auth0_domain}
+    clientId={clientId}
     redirectUri={window.location.origin}
   >
     <App />

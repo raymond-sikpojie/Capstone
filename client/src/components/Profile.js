@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-// import { useHistory } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import ImageUploadButton from "../components/ImageUploadButton";
 import CreateItemForm from "../components/CreateItemForm";
 import Header from "../components/Header";
-const apiId = process.env.REACT_APP_API_ID;
-// import EditItem from "../components/EditItem";
+import { config } from "../config";
+const apiId = config.apiId;
 
 export default function Profile() {
   const { user, isAuthenticated } = useAuth0();
@@ -14,14 +13,17 @@ export default function Profile() {
 
   // Function to Get all loans by a user from DynamoDB
   const getLoans = async () => {
+    const string = user.sub;
+    const splitString = string.split("|");
+    const userId = splitString[1];
+
     const request = await fetch(
-      `https://${apiId}.execute-api.us-east-1.amazonaws.com/dev/loan`,
+      `https://${apiId}.execute-api.us-east-1.amazonaws.com/dev/user/${userId}`,
       {
         method: "GET",
         credentials: "same-origin",
         headers: {
           "Content-Type": "application/json",
-          Authorization: user.sub,
         },
       }
     );
@@ -69,17 +71,12 @@ export default function Profile() {
           >
             Delete
           </button>
-          {/* <button onClick={handleEdit}>Edit</button> */}
         </div>
       );
     });
 
     return <div>{userInfo}</div>;
   };
-
-  // const handleEdit = () => {
-  //   history.push({ EditItem });
-  // };
 
   return (
     <div>

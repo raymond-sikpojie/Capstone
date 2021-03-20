@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-const apiId = process.env.REACT_APP_API_ID;
+import { config } from "../config";
+const apiId = config.apiId;
 
 export default function CreateItemForm(props) {
   const [name, setName] = useState(undefined);
   const [amount, setAmount] = useState(undefined);
   const { user, isAuthenticated } = useAuth0();
 
-  // const [fetchedData, setFetchedData] = useState(false);
+  const string = user.sub;
+  const splitString = string.split("|");
+  const userId = splitString[1];
+
   const userDetail = props.user;
   const setUserDetail = props.setUser;
 
@@ -26,21 +30,18 @@ export default function CreateItemForm(props) {
   //  Get all loans by a user from DynamoDB
   const getLoans = async () => {
     const request = await fetch(
-      `https://${apiId}.execute-api.us-east-1.amazonaws.com/dev/loan`,
+      `https://${apiId}.execute-api.us-east-1.amazonaws.com/dev/user/${userId}`,
       {
         method: "GET",
         credentials: "same-origin",
         headers: {
           "Content-Type": "application/json",
-          Authorization: user.sub,
         },
       }
     );
     const responseData = await request.json();
     setUserDetail(responseData);
-    // setFetchedData(!false);
     if (userDetail !== undefined) {
-      console.log(userDetail.items);
     }
   };
 
@@ -53,7 +54,7 @@ export default function CreateItemForm(props) {
     const requestBody = {
       name,
       amount,
-      userId: user.sub,
+      userId,
     };
     // Call function to create a new loan request item
     createLoanRequest(requestBody);

@@ -19,7 +19,6 @@ module.exports.imageUpload = async (event) => {
   const url = s3.getSignedUrl("putObject", {
     Bucket: bucket,
     Key: imageId,
-    // Expires: url_expiration,
     Expires: 300,
   });
 
