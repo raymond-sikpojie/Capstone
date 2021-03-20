@@ -62,7 +62,11 @@ export default function CreateItemForm(props) {
     setName("");
     setAmount("");
 
-    getLoans(); //Running this function to get all the user's items causes a change in state which will re-render the UI
+    setTimeout(() => {
+      getLoans();
+    }, 2000);
+
+    // getLoans(); //Running this function to get all the user's items causes a change in state which will re-render the UI
   };
 
   return (

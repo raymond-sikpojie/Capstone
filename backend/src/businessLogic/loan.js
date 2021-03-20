@@ -48,7 +48,7 @@ async function getLoans(userId) {
         ":userId": userId,
       },
 
-      ScanIndexForward: true,
+      ScanIndexForward: false,
     })
     .promise();
 
