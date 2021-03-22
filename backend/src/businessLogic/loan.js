@@ -16,7 +16,7 @@ async function createLoan(userId, name, amount) {
     name,
     amount,
     approved: false,
-    // createdAt: new Date().toISOString(),
+    //createdAt: new Date().toISOString(),
   };
 
   const params = {
