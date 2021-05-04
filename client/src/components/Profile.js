@@ -53,24 +53,26 @@ export default function Profile() {
     const userData = userDetail.items;
     const userInfo = userData.map((user) => {
       return (
-        <div className="loan-item" key={user.loanId}>
-          <p>Loan purpose: {user.name}</p>
-          <p>Cost: ${user.amount}</p>
-          {user.approved ? <p>Status: Approved</p> : <p>Status: Unapproved</p>}
-          {user.imageUrl ? <img src={user.imageUrl} alt="invoice" /> : null}
+        <div className="items-container">
+          <div className="loan-item" key={user.loanId}>
+            <p>Loan purpose: {user.name}</p>
+            {/* <p>Cost: ${user.amount}</p> */}
+            {/* {user.approved ? <p>Status: Approved</p> : <p>Status: Unapproved</p>}
+          {user.imageUrl ? <img src={user.imageUrl} alt="invoice" /> : null} */}
 
-          <ImageUploadButton
+            {/* <ImageUploadButton
             id={user.loanId}
             userDetail={userDetail}
             setUserDetail={setUserDetail}
-          />
+          /> */}
 
-          <button
-            className="delete-btn"
-            onClick={() => handleDelete(user.loanId)}
-          >
-            Delete
-          </button>
+            <button
+              className="delete-btn"
+              onClick={() => handleDelete(user.loanId)}
+            >
+              Delete
+            </button>
+          </div>
         </div>
       );
     });
@@ -80,12 +82,16 @@ export default function Profile() {
 
   return (
     <div>
-      <Header />
-      {isAuthenticated ? (
-        <CreateItemForm user={userDetail} setUser={setUserDetail} />
-      ) : null}
+      <div className="section-1">
+        <Header />
+        {isAuthenticated ? (
+          <CreateItemForm user={userDetail} setUser={setUserDetail} />
+        ) : null}
+      </div>
 
-      {isAuthenticated && userDetail ? <ShowUser /> : null}
+      <div className="section-2">
+        {isAuthenticated && userDetail ? <ShowUser /> : null}
+      </div>
     </div>
   );
 }
