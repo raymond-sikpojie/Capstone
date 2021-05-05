@@ -55,7 +55,14 @@ export default function Profile() {
       return (
         <div className="items-container">
           <div className="loan-item" key={user.loanId}>
-            <p>Loan purpose: {user.name}</p>
+            <span className="image">
+              <i class="far fa-circle"></i>
+              {/* <img src="./images/icon-check.svg" alt="icon" /> */}
+            </span>
+
+            {/* <p>Loan purpose: {user.name}</p> */}
+            <p>{user.name}</p>
+            <p>{user.amount}</p>
             {/* <p>Cost: ${user.amount}</p> */}
             {/* {user.approved ? <p>Status: Approved</p> : <p>Status: Unapproved</p>}
           {user.imageUrl ? <img src={user.imageUrl} alt="invoice" /> : null} */}
