@@ -49,14 +49,21 @@ export default function Profile() {
     getLoans();
   };
 
+  const handleComplete = async (e) => {
+    // console.log(e.target.classList.toggle("complete"));
+    e.target.classList.toggle("complete");
+    // console.log(e.target);
+  };
+
   const ShowUser = () => {
     const userData = userDetail.items;
     const userInfo = userData.map((user) => {
       return (
         <div className="items-container">
           <div className="loan-item" key={user.loanId}>
-            <span className="image">
-              <i class="far fa-circle"></i>
+            <span onClick={(e) => handleComplete(e)}>
+              {/* <i class="far fa-circle"></i> */}
+              {/* <input type="checkbox" defaultChecked={false} /> */}
               {/* <img src="./images/icon-check.svg" alt="icon" /> */}
             </span>
 
@@ -77,7 +84,7 @@ export default function Profile() {
               className="delete-btn"
               onClick={() => handleDelete(user.loanId)}
             >
-              Delete
+              Remove
             </button>
           </div>
         </div>
@@ -95,7 +102,6 @@ export default function Profile() {
           <CreateItemForm user={userDetail} setUser={setUserDetail} />
         ) : null}
       </div>
-
       <div className="section-2">
         {isAuthenticated && userDetail ? <ShowUser /> : null}
       </div>

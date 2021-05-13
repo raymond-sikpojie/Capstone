@@ -11,8 +11,8 @@ body {
 }
 
 .section-1 {
+  margin-bottom: 20px;
   min-height: 30vh;
-
   background-image: url(images/bg-desktop-light.jpg);
 }
 
@@ -64,17 +64,21 @@ h2 {
 }
 
 .loan-item {
-  /* background-color: rgb(213, 247, 247);
-  margin: 10px; */
+  /* background-color: rgb(213, 247, 247); */
+  /* margin: 10px; */
   width: 40vw;
-  /* border-bottom: 1px solid black; */
+  border-top: 1px solid rgba(0, 0, 0, 0.151);
   padding: 20px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 
   /* background-color: yellow; */
+}
+
+.loan-item span {
+  cursor: pointer;
 }
 
 /* .items-container:nth-last-child() {
@@ -83,6 +87,11 @@ h2 {
 
 .loan-item p {
   margin: 20px 0;
+}
+
+.complete {
+  text-decoration: line-through;
+  /* background-color: red; */
 }
 
 img {
